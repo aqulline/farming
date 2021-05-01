@@ -1,0 +1,860 @@
+#:import sm kivy.uix.screenmanager
+ScreenManager:
+    MDScreen:
+        name:"one"
+        on_enter:
+            app.screen_collector("one")
+        md_bg_color: [216/255, 201/255, 179/255 ,0]
+        FloatLayout:
+            orientation:"vertical"
+            MDLabel:
+                text:"[color=47300E]WELCOME[/color]"
+                halign: "center"
+                pos_hint: {"center_y": .85, "center_x": .22}
+                bold: True
+                markup: True
+                font_size: 25
+            Image:
+                source:"leafA.png"
+                size:50, 50
+                #allow_stretch: True
+                pos_hint: {"center_y": .56, "center_x": .5}
+                keep_ratio : False
+            MDLabel:
+                text:"[color=896632]farming is our passion[/color]"
+                halign: "center"
+                pos_hint: {"center_y": .823, "center_x": .21}
+                bold: True
+                markup: True
+                font_size: 10
+            MDCard:
+                md_bg_color: 233/255, 210/255, 176/255  ,1
+                size_hint: None, None
+                size: app.size_x + 100, "300dp"
+                pos_hint: {"center_x": .55, "center_y": .16}
+                elevation: 7
+
+            MDFillRoundFlatButton:
+                id: sign_up
+                pos_hint: {"center_x": .5, "center_y": .1}
+                size_hint_x: .7
+                text: "sign up"
+                text_color: 89/255, 60/255, 20/255, 1
+                md_bg_color: 207/255, 184/255, 175/255 ,1
+                on_release:
+                    root.current="register screen"
+                    app.screen_collector("register screen")
+            MDFillRoundFlatButton:
+                id: sign_in
+                pos_hint: {"center_x": .5, "center_y": .2}
+                size_hint_x: .7
+                text: "sign in"
+                on_release:
+                    root.current="login screen"
+                    app.screen_collector("login screen")
+
+    MDScreen:
+        md_bg_color: [216/255, 201/255, 179/255 ,1]
+        name:"login screen"
+        FloatLayout:
+            orientation:"vertical"
+            FitImage:
+                source:"front2.jpg"
+                size: app.size_x, app.size_y
+                allow_stretch: True
+                keep_ratio : False
+            MDLabel:
+                text:"Hello world"
+                halign:"center"
+                pos_hint:{"center_x":.5, "center_y":.7}
+            NumberOnlyRound:
+                id:user_login_phone
+                pos_hint:{"center_x":.5, "center_y":.6}
+                size_hint: .8,.054
+                hint_text:"Phone:"
+                line_color :app.theme_cls.primary_color
+                normal_color: 0.5,0.5,0.5,0.5
+                icon_left:"phone"
+                color_active:1, 1, 1, 1
+                icon_left_color:app.theme_cls.primary_color
+            MDTextFieldRound:
+                id:user_login_password
+                pos_hint:{"center_x":.5, "center_y":.48}
+                size_hint: .8,.054
+                hint_text:"password:"
+                password:True
+                line_color:app.theme_cls.primary_color
+                normal_color: 0.5,0.5,0.5,0.5
+                icon_left:"lock"
+                icon_left_color:app.theme_cls.primary_color
+                color_active:1, 1, 1, 1
+            MDSpinner:
+                size_hint: None, None
+                size: dp(46), dp(46)
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                active: app.spin_active
+            MDFillRoundFlatButton:
+                text:"Login"
+                size_hint: .7, .07
+                pos_hint:{"center_x":.5, "center_y":.38}
+                text_color:1, 1, 1, 1
+                on_release:
+                    app.validate_user(user_login_phone.text, user_login_password.text)
+            MDRoundFlatButton:
+                text:"sign up?"
+                size_hint: .7, .05
+                text_color:app.theme_cls.primary_color
+                pos_hint:{"center_x":.5, "center_y":.28}
+                on_release:
+                    app.register_user()
+
+    Screen:
+        name:"main"
+        on_enter:
+            app.resize_bottom_tabs()
+        FloatLayout:
+            MDBottomNavigation:
+                text_color_active: 0, 79/255, 83/255
+                panel_color: 1, 1, 1, 1
+                id:bottom_nav
+                MDBottomNavigationItem:
+                    name: 'screen 1'
+                    text: 'Home'
+                    icon: 'home'
+                    FloatLayout:
+                        orientation:"vertical"
+                        MDCard:
+                            size_hint: None, None
+                            size: app.size_x, "95dp"
+                            pos_hint: {"center_x": .5, "center_y": .92}
+                            elevation: 1
+                        MDLabel:
+                            text: "[color=004F53]FARMZON[/color]"
+                            font_style:"H6"
+                            theme_text_color: "Custom"
+                            text_color: 0, 1, 0.7, 1
+                            markup: True
+                            pos_hint:{"center_x":.55, "center_y":.9}
+                        MDIconButton:
+                            pos_hint:{"center_x":.93, "center_y":.9}
+                            user_font_size: "40sp"
+                            icon: app.user_image
+                            theme_text_color: "Custom"
+                            text_color: 0, 79/255, 83/255
+                            on_release:
+                                bottom_nav.switch_tab("screen 4")
+
+                MDBottomNavigationItem:
+                    name: 'screen 2'
+                    text: 'Categories'
+                    icon: 'view-list'
+
+                    MDLabel:
+                        text: 'I programming of C++'
+                        halign: 'center'
+
+                MDBottomNavigationItem:
+                    name: 'screen 3'
+                    text: 'Cart'
+                    icon: 'cart'
+
+                    MDLabel:
+                        text: 'I programming of C++'
+                        halign: 'center'
+
+                MDBottomNavigationItem:
+                    name: 'screen 4'
+                    text: app.user_name
+                    icon: "account"
+                    FloatLayout:
+                        MDIconButton:
+                            icon:"account"
+                            pos_hint:{"center_x": .6, "center_y": .6}
+                            on_release:
+                                app.admin_memory()
+                        MDLabel:
+                            text:app.user_name
+                            halign: "center"
+
+
+    Screen:
+        name:"login_screen_admin"
+        on_enter:
+            app.spin_active = False
+        FloatLayout:
+            orientation:"vertical"
+            FitImage:
+                source:"frontimages/image two.png"
+                size:300, 300
+                allow_stretch: True
+                keep_ratio : False
+            MDLabel:
+                text:"Hello world"
+                halign:"center"
+                pos_hint:{"center_x":.5, "center_y":.7}
+            NumberOnlyRound:
+                id:admin_login_phone
+                pos_hint:{"center_x":.5, "center_y":.6}
+                size_hint: .8,.054
+                hint_text:"Phone:"
+                line_color :app.theme_cls.primary_color
+                normal_color: 0.5,0.5,0.5,0.5
+                icon_left:"phone"
+                color_active:1, 1, 1, 1
+                icon_left_color:app.theme_cls.primary_color
+            MDTextFieldRound:
+                id:admin_login_password
+                pos_hint:{"center_x":.5, "center_y":.48}
+                size_hint: .8,.054
+                hint_text:"password:"
+                password:True
+                line_color:app.theme_cls.primary_color
+                normal_color: 0.5,0.5,0.5,0.5
+                icon_left:"lock"
+                icon_left_color:app.theme_cls.primary_color
+                color_active:1, 1, 1, 1
+            MDSpinner:
+                size_hint: None, None
+                size: dp(46), dp(46)
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                active: app.spin_active
+            MDFillRoundFlatButton:
+                text:"Login"
+                size_hint: .7, .07
+                pos_hint:{"center_x":.5, "center_y":.38}
+                text_color:1, 1, 1, 1
+                on_release:
+                    app.validate_admin(admin_login_phone.text, admin_login_password.text)
+            MDRoundFlatButton:
+                text:"sign up?"
+                size_hint: .7, .05
+                text_color:app.theme_cls.primary_color
+                pos_hint:{"center_x":.5, "center_y":.28}
+                on_release:
+                    root.current = "register_admin"
+
+    Screen:
+        name:"admin_main"
+        FloatLayout:
+            orientation: "vertical"
+            AsyncImage:
+                id:admin_image
+                pos_hint: {"center_x": .5, "center_y": .85}
+                #source:app.admin_image
+                size_hint: None, None
+                size: "100dp", "100dp"
+
+            MDLabel:
+                text:app.admin_name
+                pos_hint: {"center_x": .5, "center_y": .75}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDLabel:
+                text:"products"
+                pos_hint: {"center_x": .2, "center_y": .65}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDLabel:
+                text:"followers"
+                pos_hint: {"center_x": .5, "center_y": .65}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDLabel:
+                text:"purchased"
+                pos_hint: {"center_x": .8, "center_y": .65}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDLabel:
+                text:app.admin_products
+                pos_hint: {"center_x": .2, "center_y": .6}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDLabel:
+                text:app.admin_followers
+                pos_hint: {"center_x": .5, "center_y": .6}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDLabel:
+                text:app.admin_purchased
+                pos_hint: {"center_x": .8, "center_y": .6}
+                halign:"center"
+                theme_text_color:"Primary"
+                text_color: 0, 0, 0, 0
+
+            MDFloatingActionButton:
+                pos_hint: {"center_x": .5, "center_y": .1}
+                icon: "plus"
+                elevation_normal: 12
+                on_release:
+                    root.current = "admin_main_products"
+
+
+    Screen:
+        name:"admin_main_products"
+        on_enter:
+            app.spin_active = False
+        MDBoxLayout:
+            orientation: "vertical"
+            MDIconButton:
+                icon:"arrow-left"
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.primary_color
+                on_release:
+                    root.current = "admin_main"
+            ScrollView:
+                MDGridLayout:
+                    cols: 1
+                    adaptive_height: True
+                    padding: dp(4), dp(4)
+                    spacing: dp(7)
+                    MDCard:
+                        orientation: "vertical"
+                        padding: "8dp"
+                        size_hint: None, None
+                        size: app.size_x -20, "200dp"
+                        focus_behavior: False
+                        ripple_behavior: True
+                        border_radius : "20dp"
+                        elevation: "0"
+                        on_release:
+                            app.catergory_food_spinner1()
+                        AsyncImage:
+                            source: 'frontimages/food.png'
+                            size: self.texture_size
+                            allow_stretch: True
+                            keep_ratio: False
+
+                    MDCard:
+                        orientation: "vertical"
+                        padding: "8dp"
+                        size_hint: None, None
+                        size: app.size_x -20, "200dp"
+                        focus_behavior: False
+                        ripple_behavior: True
+                        border_radius : "20dp"
+                        elevation: "0"
+                        on_release:
+                            app.catergory_fruit_spinner2()
+                        AsyncImage:
+                            source: 'frontimages/fruits.png'
+                            size: self.texture_size
+                            allow_stretch: True
+                            keep_ratio: False
+
+                    MDCard:
+                        orientation: "vertical"
+                        padding: "8dp"
+                        size_hint: None, None
+                        size: app.size_x -20, "200dp"
+                        focus_behavior: False
+                        ripple_behavior: True
+                        border_radius : "20dp"
+                        elevation: "0"
+                        on_release:
+                            app.catergory_herbs_spinner3()
+                        AsyncImage:
+                            source: 'frontimages/herbs.jpg'
+                            size: self.texture_size
+                            allow_stretch: True
+                            keep_ratio: False
+
+        MDSpinner:
+            size_hint: None, None
+            size: dp(46), dp(46)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            active: app.spin_active
+
+        MDLabel:
+            text:"Select your product category"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint:{"center_x":.8, "center_y":.96}
+
+    MDScreen:
+        name:"categories_food"
+        MDBoxLayout:
+            orientation:"vertical"
+            MDIconButton:
+                icon:"arrow-left"
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.primary_color
+                on_release:
+                    root.current = "admin_main_products"
+            ScrollView:
+                MDGridLayout:
+                    cols: 1
+                    adaptive_height: True
+                    padding: dp(4), dp(4)
+                    spacing: dp(7)
+                    id:food_cat
+        MDLabel:
+            text:"Select your product category"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint:{"center_x":.8, "center_y":.96}
+
+    Screen:
+        name:"categories_fruit"
+        MDBoxLayout:
+            orientation:"vertical"
+            MDIconButton:
+                icon:"arrow-left"
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.primary_color
+                on_release:
+                    root.current = "admin_main_products"
+            ScrollView:
+                MDGridLayout:
+                    cols: 1
+                    adaptive_height: True
+                    padding: dp(4), dp(4)
+                    spacing: dp(7)
+                    id:fruit_cat
+        MDLabel:
+            text:"Select your product category"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint:{"center_x":.8, "center_y":.96}
+
+
+    Screen:
+        name:"categories_herbs"
+        MDBoxLayout:
+            orientation:"vertical"
+            MDIconButton:
+                icon:"arrow-left"
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.primary_color
+                on_release:
+                    root.current = "admin_main_products"
+            ScrollView:
+                MDGridLayout:
+                    cols: 1
+                    adaptive_height: True
+                    padding: dp(4), dp(4)
+                    spacing: dp(7)
+                    id:herb_cat
+        MDLabel:
+            text:"Select your product category"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint:{"center_x":.8, "center_y":.96}
+
+    Screen:
+        name:"product_detail"
+        FloatLayout:
+            orientation:"vertical"
+            ScrollView:
+                MDGridLayout:
+                    cols: 1
+                    adaptive_height: True
+                    padding: dp(9), dp(5)
+                    spacing: dp(15)
+                    MDIconButton:
+                        icon:"arrow-left"
+                        on_release:
+                            app.Screen_changer("admin_main_products")
+                    MDCard:
+                        size_hint: None, None
+                        size: app.size_x - 15, "180dp"
+                        padding: dp(10), dp(5)
+                        pos_hint: {"center_x": 1, "center_y": .8}
+                        elevation:"0"
+                        on_release:
+                            # app.file_manager_open()
+                            app.Permission()
+                            print("dog")
+                        AsyncImage:
+                            id:product_image
+                            source: 'picture.png'
+                            size: self.texture_size
+                            allow_stretch: False
+                            keep_ratio: False
+                    MDLabel:
+                        halign:"center"
+                        text:"Full sack: 90kg"
+                    MDLabel:
+                        halign:"center"
+                        text:"Half sack: 45kg"
+                    MDTextField:
+                        id:product_name
+                        hint_text: "Product name:"
+                        helper_text: "Example: Maindi Mazuri"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        id:product_max
+                        hint_text: "Product Max Price:"
+                        helper_text: "Example: 20000"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        id:product_min
+                        hint_text: "Product minimum price:"
+                        helper_text: "Example:10000"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        id:product_description
+                        hint_text: "Product Description:"
+                        helper_text: "Example: Maindi Mazuri"
+                        helper_text_mode: "persistent"
+                        multiline:"True"
+                    MDTextField:
+                        id:product_full
+                        hint_text: "Number of full sack:"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        id:product_half
+                        hint_text: "Number of half sack:"
+                        helper_text_mode: "persistent"
+                    MDCard:
+                        size_hint: None, None
+                        size: app.size_x - 15, "80dp"
+                        elevation:"0"
+                        orientation:"vertical"
+                        MDBoxLayout:
+                            MDLabel:
+                                text:"Date of harvest"
+                                halign:"center"
+                                theme_text_color:"Custom"
+                                text_color:app.theme_cls.primary_color
+                        MDBoxLayout:
+                            orientation:"horizontal"
+                            MDTextFieldRect:
+                                id:product_date
+                                size_hint: 1, None
+                                height: "30dp"
+                                hint_text:"date"
+                            MDTextFieldRect:
+                                id:product_month
+                                size_hint: 1, None
+                                height: "30dp"
+                                hint_text:"month"
+                            MDTextFieldRect:
+                                id:product_year
+                                size_hint: 1, None
+                                height: "30dp"
+                                hint_text:"year"
+                    MDCard:
+                        size_hint: None, None
+                        size: app.size_x - 150, "120dp"
+                        elevation:"0"
+                        orientation:"vertical"
+                        MDLabel:
+                            text:"Selling Details:"
+                            halign:"center"
+                            theme_text_color:"Custom"
+                            text_color:app.theme_cls.primary_color
+                        MDBoxLayout:
+                            MDLabel:
+                                text:"Uniregional"
+                            Check:
+                                active: True
+                                pos_hint: {'center_x': .4, 'center_y': .3}
+                                on_active: app.type_active(*args)
+                        MDBoxLayout:
+                            MDLabel:
+                                text:"Multiregional"
+                            Check:
+                                pos_hint: {'center_x': .6, 'center_y': .25}
+                    MDCard:
+                        size_hint: None, None
+                        size: app.size_x - 15, "80dp"
+                        elevation:"0"
+                        orientation:"vertical"
+                        MDBoxLayout:
+                            orientation:"vertical"
+                            MDLabel:
+                                text:"Product features"
+                                halign:"center"
+
+                    MDTextField:
+                        hint_text: "feature one:"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        hint_text: "feature two:"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        hint_text: "feature three:"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        hint_text: "feature four:"
+                        helper_text_mode: "persistent"
+                    MDTextField:
+                        hint_text: "feature five:"
+                        helper_text_mode: "persistent"
+
+                    MDRoundFlatButton:
+                        text:"SUBMIT"
+                        pos_hint: {'center_x': 1, 'center_y': .2}
+                        size_hint_x: .7
+
+
+    Screen:
+        name:"register screen"
+        # on_enter:
+            # app.dark()
+        on_leave:
+            app.light()
+        FloatLayout:
+            orientation:"vertical"
+            MDLabel:
+                text:"Register Account"
+                halign:"center"
+                pos_hint:{"center_x":.5, "center_y":.95}
+                color:app.theme_cls.primary_color
+            MDIcon:
+                icon:"account"
+                pos_hint:{"center_x":.75, "center_y":.95}
+                color:app.theme_cls.primary_color
+            MDTextField:
+                id:user_name
+                pos_hint:{"center_x":.5, "center_y":.85}
+                size_hint:.9, None
+                hint_text:"Name:"
+                required:True
+                helper_text_mode: "on_focus"
+                helper_text: "Example: John peter mbuya"
+            NumberOnly:
+                id:user_phone
+                pos_hint:{"center_x":.5, "center_y":.75}
+                size_hint:.9, None
+                hint_text:"Phone Number:"
+                helper_text_mode: "on_focus"
+                helper_text: "Example: 07xxxxxx or 06xxxxxxx"
+                required:True
+                on_text:
+                    app.check()
+            MDTextField:
+                id:user_password
+                pos_hint:{"center_x":.5, "center_y":.65}
+                size_hint:.9, None
+                hint_text:"Password:"
+                password:True
+                required:True
+            MDTextField:
+                id:user_city
+                pos_hint:{"center_x":.5, "center_y":.55}
+                size_hint:.9, None
+                hint_text:"City/Region:"
+                helper_text: "Example: Arusha"
+                required:True
+            MDTextField:
+                id:user_address
+                pos_hint:{"center_x":.5, "center_y":.45}
+                size_hint:.9, None
+                hint_text:"District:"
+                required:True
+                helper_text_mode: "on_focus"
+                helper_text: "Example: sombetini"
+            MDTextField:
+                id:user_email
+                pos_hint:{"center_x":.5, "center_y":.35}
+                size_hint:.9, None
+                hint_text:"Email:"
+                required:True
+                helper_text_mode: "on_focus"
+                helper_text: "Example: yourname@gmail.com"
+            MDSpinner:
+                size_hint: None, None
+                size: dp(46), dp(46)
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                active: app.spin_active
+            MDFillRoundFlatButton:
+                id:register
+                text:"Register"
+                size_hint: .7, .06
+                pos_hint:{"center_x":.5, "center_y":.2}
+                text_color:1, 1, 1, 1
+                on_release:
+                    app.validate_registration1(user_name.text, user_phone.text, user_password.text, user_city.text, user_email.text, user_address.text)
+            MDRoundFlatButton:
+                text:"login?"
+                size_hint: .7, .05
+                text_color:app.theme_cls.primary_color
+                pos_hint:{"center_x":.5, "center_y":.28}
+                on_release:
+                    root.current="login screen"
+                    app.screen_collector("login screen")
+
+
+    Screen:
+        name:"register_admin"
+        on_enter:
+            app.dark()
+            app.spin_active = False
+        on_leave:
+            app.light()
+        FloatLayout:
+            orientation:"vertical"
+            MDLabel:
+                text:"Register Admin Account"
+                halign:"center"
+                pos_hint:{"center_x":.5, "center_y":.95}
+                color:app.theme_cls.primary_color
+            MDIcon:
+                icon:"account"
+                pos_hint:{"center_x":.7, "center_y":.95}
+                color:app.theme_cls.primary_color
+            MDIconButton:
+                icon:"arrow-left"
+                pos_hint:{"center_x":.07, "center_y":.95}
+                on_release:
+                    root.current="login_screen_admin"
+            MDTextField:
+                id:admin_name
+                pos_hint:{"center_x":.5, "center_y":.85}
+                size_hint:.9, None
+                hint_text:"Name:"
+                required:True
+                helper_text_mode: "on_focus"
+                helper_text: "Example: John peter mbuya"
+            NumberOnly:
+                id:admin_phone
+                pos_hint:{"center_x":.5, "center_y":.75}
+                size_hint:.9, None
+                hint_text:"Phone Number:"
+                required:True
+            MDTextField:
+                id:admin_password
+                pos_hint:{"center_x":.5, "center_y":.65}
+                size_hint:.9, None
+                hint_text:"Password:"
+                password:True
+                required:True
+            MDTextField:
+                id:admin_city
+                pos_hint:{"center_x":.5, "center_y":.55}
+                size_hint:.9, None
+                hint_text:"City:"
+                required:True
+            MDTextField:
+                id:admin_address
+                pos_hint:{"center_x":.5, "center_y":.45}
+                size_hint:.9, None
+                hint_text:"Address:"
+                required:True
+                helper_text_mode: "on_focus"
+                helper_text: "Example: Arusha/sombetini"
+            MDTextField:
+                id:admin_email
+                pos_hint:{"center_x":.5, "center_y":.35}
+                size_hint:.9, None
+                hint_text:"Email:"
+                required:True
+                helper_text_mode: "on_focus"
+                helper_text: "Example: yourname@gmail.com"
+            MDCard:
+                #orientation:"vertical"
+                size_hint: None, None
+                size: "280dp", "90dp"
+                pos_hint: {'center_x': .5, 'center_y': .25}
+                ScrollView:
+                    MDList:
+                        MDLabel
+                            text:"Company"
+                            pos_hint: {'center_x': .9, 'center_y': .3}
+                        Check:
+                            active: True
+                            pos_hint: {'center_x': .4, 'center_y': .3}
+                            on_active: app.type_active(*args)
+                        MDLabel:
+                            text:"individual"
+                            pos_hint: {'center_x': .9, 'center_y': .25}
+                        Check:
+                            pos_hint: {'center_x': .6, 'center_y': .25}
+            MDSpinner:
+                size_hint: None, None
+                size: dp(46), dp(46)
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                active: app.spin_active
+            MDFillRoundFlatButton:
+                id:register
+                text:"Register"
+                size_hint: .7, .06
+                pos_hint:{"center_x":.5, "center_y":.1}
+                text_color:1, 1, 1, 1
+                on_release:
+                    app.validate_registration_admin(admin_name.text, admin_phone.text, admin_password.text, admin_city.text, admin_email.text, admin_address.text)
+
+
+
+
+<products_cards>:
+    orientation: "vertical"
+    padding: "8dp"
+    size_hint: None, None
+    size: app.size_x -20, "180dp"
+    focus_behavior: False
+    ripple_behavior: True
+    border_radius : "20dp"
+    border: 1
+    on_release:
+        print("touched")
+    AsyncImage:
+        source: 'image.png'
+        size: self.texture_size
+        keep_ratio: False
+    MDLabel
+        text:"product name"
+        theme_text_color: "Secondary"
+        size_hint_y: None
+        height: self.texture_size[1]
+    MDLabel
+        text:"product price"
+        theme_text_color: "Secondary"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+
+<Check@MDCheckbox>:
+    group: 'group'
+    size_hint: None, None
+    size: dp(48), dp(48)
+
+<category>:
+    orientation: "vertical"
+    padding: "8dp"
+    size_hint: None, None
+    size: app.size_x -20, "280dp"
+    focus_behavior: False
+    ripple_behavior: True
+    elevation: "0"
+    on_press:
+        app.Screen_changer("product_detail")
+
+<Labels>:
+    text: "Title"
+    theme_text_color: "Custom"
+    text_color: app.theme_cls.primary_color
+    size_hint_y: None
+    height: self.texture_size[1]
+
+
+<cat_image>:
+    size: self.texture_size
+    allow_stretch: True
+    keep_ratio: False
+
+<round_image>:
+    orientation: 'vertical'
+    FloatLayout:
+        canvas:
+            Color:
+                rgb: 1, 1, 1
+            Ellipse:
+                pos: 280, 200
+                size: 200 , 200
+                source: 'image.jpg'
+                angle_start: 0
+                angle_end: 360

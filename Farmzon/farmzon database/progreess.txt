@@ -1,0 +1,15 @@
+Screens:
+	Login screen
+		|
+		|____background: image one
+	Register screen
+		|
+		|____background: image image two
+	Admin login screen
+		|
+		|____background: image image three
+	Home
+	Carts
+	Orders
+	Products description
+	Categories 

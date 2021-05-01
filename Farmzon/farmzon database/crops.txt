@@ -1,0 +1,32 @@
+		**_-----_FOOD__-----__**
+Bean
+Cassava
+Maize
+Millet
+Oil palm
+Potato
+Rice
+Sorghum
+Sugarcane
+Sunflower
+Wheat
+		**---__HERBS___----***
+Capsicum
+Carrot
+Clove
+Cucumber
+Onion
+Pea
+
+Avocado
+Banana
+Coconut
+Grape
+Lemon
+Mangoe
+Orange
+Okra
+Passion fruit
+Papaya
+Pineapple
+Watermelon
